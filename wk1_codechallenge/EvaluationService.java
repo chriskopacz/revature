@@ -337,11 +337,16 @@ public class EvaluationService {
 		public int indexOf(T t) {
 			//set initial left, mid, right
 			int left = 0;
-			int right = sortedList.size()-1;
+			int right = sortedList.size();
+			return search(left,right,t);
+			
+			
+			/*
+			 * uncomment this section for the while-loop version (and comment out the above return statement as well)
+			 * 
 			int mid = right/2 + left;
 			int count = 0;
 			int max = sortedList.size();
-
 			while(left <= right && count <= max)
 			{
 				if(sortedList.get(mid).equals(t))
@@ -362,9 +367,34 @@ public class EvaluationService {
 				//iterate count with each loop/search
 				count += 1;
 			}
-
+			
 			//return -1 if number of searches exceeds number of elements in list (indicates possible infinite loop)
 			return -1;
+			*
+			*end of the while-loop section
+			*/
+		}
+		
+		//recursive version of the binary search
+		public int search(int left, int right, T t)
+		{
+			int mid = (int)(right+left)/2;
+			
+			if(sortedList.get(mid).equals(t))
+			{
+				//if the value is found, return the corresponding index
+				return mid;
+			}else if((Integer)sortedList.get(mid) < (Integer)t)
+			{
+				//if the value is greater than the one located at index=mid, then move 'left' to mid+1, and recursively search again
+				//left = mid;
+				return search(mid,right,t);
+			}else
+			{
+				//if the value is less than the one located at index=mid, then move 'right' to mid-1, and recursively search again
+				//right = mid;
+				return search(left,mid,t);
+			}
 		}
 
 		public BinarySearch(List<T> sortedList) {
